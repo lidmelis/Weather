@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package weather;
+
+option go_package = "weatherProject/pkg/weather/v1;weather_v1";
+
+service WeatherAPI {
+    rpc Create(CreateRequest) returns (CreateResponse);
+}
+
+message WeatherInfo {
+    string city = 1;
+    double tempreture = 2;
+}
+
+message Weather {
+    int64 id = 1;
+    WeatherInfo info = 2;
+}
+
+message CreateResponse {
+    int64 id = 1;
+}
+
+message CreateRequest {
+    WeatherInfo info = 1;
+}
+
