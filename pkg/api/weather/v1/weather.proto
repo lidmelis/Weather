@@ -2,15 +2,48 @@ syntax = "proto3";
 
 package weather;
 
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
 option go_package = "weatherProject/pkg/weather/v1;weather_v1";
 
 service WeatherAPI {
-    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Create(CreateRequest) returns (CreateResponse) {
+        option (google.api.http) = {
+            post: "/api/v1/weather"
+            body: "*"
+        };
+    };
+    
+    rpc Get(GetRequest) returns (GetResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/weather/{id}"
+        };
+    };
+    
+    rpc List(google.protobuf.Empty) returns (ListResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/weather"
+        };
+    };
+    
+    rpc Update(UpdateRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            patch: "/api/v1/weather"
+            body: "*"
+        };
+    };
+    
+    rpc Delete(DeleteRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/api/v1/weather/{id}"
+        };
+    };
 }
 
 message WeatherInfo {
     string city = 1;
-    double tempreture = 2;
+    double tempereture = 2;
 }
 
 message Weather {
@@ -26,3 +59,23 @@ message CreateRequest {
     WeatherInfo info = 1;
 }
 
+message GetRequest {
+    int64 id = 1;
+}
+
+message GetResponse {
+    Weather weather = 1;
+}
+
+message ListResponse {
+    repeated Weather weathers = 1;
+}
+
+message UpdateRequest {
+    int64 id = 1;
+    WeatherInfo info = 2;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+}
