@@ -10,12 +10,15 @@ get-deps:
 	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 	go get -u google.golang.org/protobuf/proto
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+	go get -u google.golang.org/grpc
 
 generate-api:
 	mkdir -p pkg/weather/v1
 	protoc --proto_path pkg/api/weather/v1 \
+	-I ~/.local/protoc-33.1/include \
 	--go_out=pkg/weather/v1 --go_opt=paths=source_relative \
 	--plugin=protoc-gen-go=bin/protoc-gen-go \
 	--go-grpc_out=pkg/weather/v1 --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
 	pkg/api/weather/v1/weather.proto
+

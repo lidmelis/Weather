@@ -2,43 +2,23 @@ syntax = "proto3";
 
 package weather;
 
+import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
-import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
 
 option go_package = "weatherProject/pkg/weather/v1;weather_v1";
 
 service WeatherAPI {
-    rpc Create(CreateRequest) returns (CreateResponse) {
-        option (google.api.http) = {
-            post: "/api/v1/weather"
-            body: "*"
-        };
-    };
+    rpc Create(CreateRequest) returns (CreateResponse);
     
-    rpc Get(GetRequest) returns (GetResponse) {
-        option (google.api.http) = {
-            get: "/api/v1/weather/{id}"
-        };
-    };
+    rpc Get(GetRequest) returns (GetResponse);
     
-    rpc List(google.protobuf.Empty) returns (ListResponse) {
-        option (google.api.http) = {
-            get: "/api/v1/weather"
-        };
-    };
+    rpc List(google.protobuf.Empty) returns (ListResponse);
     
-    rpc Update(UpdateRequest) returns (google.protobuf.Empty) {
-        option (google.api.http) = {
-            patch: "/api/v1/weather"
-            body: "*"
-        };
-    };
+    rpc Update(UpdateRequest) returns (google.protobuf.Empty);
     
-    rpc Delete(DeleteRequest) returns (google.protobuf.Empty) {
-        option (google.api.http) = {
-            delete: "/api/v1/weather/{id}"
-        };
-    };
+    rpc Delete(DeleteRequest) returns (google.protobuf.Empty);
 }
 
 message WeatherInfo {
@@ -49,6 +29,8 @@ message WeatherInfo {
 message Weather {
     int64 id = 1;
     WeatherInfo info = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp updated_at = 4;
 }
 
 message CreateResponse {
@@ -72,8 +54,8 @@ message ListResponse {
 }
 
 message UpdateRequest {
-    int64 id = 1;
-    WeatherInfo info = 2;
+    google.protobuf.StringValue city = 1;
+    google.protobuf.DoubleValue tempereture = 2;
 }
 
 message DeleteRequest {
