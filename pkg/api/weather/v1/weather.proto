@@ -54,8 +54,9 @@ message ListResponse {
 }
 
 message UpdateRequest {
-    google.protobuf.StringValue city = 1;
-    google.protobuf.DoubleValue tempereture = 2;
+    int64 id = 1;
+    google.protobuf.StringValue city = 2;
+    google.protobuf.DoubleValue tempereture = 3;
 }
 
 message DeleteRequest {
